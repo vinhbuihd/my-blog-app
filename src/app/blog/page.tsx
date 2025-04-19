@@ -19,14 +19,16 @@ const Blog = async () => {
         </Link>
       </div>
       <ul className="space-y-4">
-        {posts.slice(0, 10).map((post: any) => (
-          <li key={post.id} className="p-4 border rounded-xl shadow-sm">
-            <Link href={`/blog/${post.id}`}>
-              <h2 className="font-semibold">{post.title}</h2>
-              <p className="text-gray-600 text-sm">{post.body}</p>
-            </Link>
-          </li>
-        ))}
+        {posts
+          .slice(0, 10)
+          .map((post: { id: number; title: string; body: string }) => (
+            <li key={post.id} className="p-4 border rounded-xl shadow-sm">
+              <Link href={`/blog/${post.id}`}>
+                <h2 className="font-semibold">{post.title}</h2>
+                <p className="text-gray-600 text-sm">{post.body}</p>
+              </Link>
+            </li>
+          ))}
       </ul>
     </div>
   );

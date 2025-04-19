@@ -4,28 +4,32 @@ import Link from "next/link";
 import { deletePost } from "../action";
 import { Metadata } from "next";
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
+
   const post = await prisma.post.findUnique({
     where: { id: Number(params.id) },
   });
 
   return {
-    title: post.title,
-    description: post.body.slice(0, 150),
+    title: post?.title,
+    description: post?.body?.slice(0, 150),
     openGraph: {
-      title: post.title,
-      description: post.body.slice(0, 150),
+      title: post?.title,
+      description: post?.body?.slice(0, 150),
     },
   };
 }
 
 const BlogDetail = async ({ params }: Props) => {
+  const { id } = await params;
+
   const post = await prisma.post.findUnique({
     where: {
-      id: Number(params.id),
+      id: Number(id),
     },
   });
 

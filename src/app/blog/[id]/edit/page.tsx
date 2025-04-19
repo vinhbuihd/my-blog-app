@@ -1,48 +1,43 @@
+// app/blog/[id]/edit/page.tsx
+
+import { notFound } from "next/navigation";
 import { prisma } from "../../../../../lib/prisma";
 import { updatePost } from "../../action";
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-export default async function EditPost({ params }: Props) {
+export default async function EditPostPage(props: Props) {
+  const params = await props.params;
   const post = await prisma.post.findUnique({
     where: { id: Number(params.id) },
   });
 
-  if (!post) return <div className="p-8">Post not found</div>;
+  if (!post) return notFound();
 
   return (
-    <form action={updatePost} className="p-8 space-y-4 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold">Edit Post</h1>
-
-      <input type="hidden" name="id" value={String(post.id)} />
-
-      <div>
-        <label className="block font-medium">Title</label>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Edit Post</h1>
+      <form action={updatePost} className="space-y-4">
+        <input type="hidden" name="id" value={post.id} />
         <input
           name="title"
           defaultValue={post.title}
-          className="w-full border p-2 rounded"
+          className="border p-2 w-full"
         />
-      </div>
-
-      <div>
-        <label className="block font-medium">Body</label>
         <textarea
           name="body"
           defaultValue={post.body}
-          rows={5}
-          className="w-full border p-2 rounded"
+          className="border p-2 w-full"
         />
-      </div>
-
-      <button
-        type="submit"
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
-        Save Changes
-      </button>
-    </form>
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          Update
+        </button>
+      </form>
+    </div>
   );
 }
