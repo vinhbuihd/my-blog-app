@@ -1,7 +1,7 @@
 // app/blog/[id]/edit/page.tsx
 
 import { notFound } from "next/navigation";
-import { prisma } from "../../../../../lib/prisma";
+import { prisma } from "../../../../lib/prisma";
 import { updatePost } from "../../action";
 
 type Props = {

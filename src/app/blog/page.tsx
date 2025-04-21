@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "../../lib/prisma";
 
 const Blog = async () => {
   const posts = await prisma.post.findMany({

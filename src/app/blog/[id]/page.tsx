@@ -1,5 +1,5 @@
 import React from "react";
-import { prisma } from "../../../../lib/prisma";
+import { prisma } from "../../../lib/prisma";
 import Link from "next/link";
 import { deletePost } from "../action";
 import { Metadata } from "next";
